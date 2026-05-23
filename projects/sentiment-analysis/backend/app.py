@@ -1,47 +1,66 @@
-# app.py
 # This is the backend server that receives text from React and returns sentiment prediction
 
-# Flask framework for creating API
+# Import Flask for creating the web server and jsonify for sending JSON responses
 from flask import Flask, request, jsonify
-# Allows React frontend to connect
+# Import CORS to allow React frontend to connect to this backend
 from flask_cors import CORS
-import joblib                                  # To load saved model
+# Import joblib to load the saved machine learning model
+import joblib
 
-app = Flask(__name__)                          # Create Flask application
-# Enable Cross-Origin requests from React
+# Create a new Flask web application instance
+app = Flask(__name__)
+# Enable Cross-Origin Resource Sharing so React can communicate with Flask
 CORS(app)
 
-# Load the trained model and vectorizer from files
-model = joblib.load('sentiment_model.pkl')
+# Load the trained model and vectorizer from saved files
+model = joblib.load('sentiment_model.pkl')       # Load the RandomForest model
+# Load the TF-IDF vectorizer used to convert text to numbers
 vectorizer = joblib.load('vectorizer.pkl')
 
 
-# Define API endpoint for predictions
+# Define a route for POST requests to /predict
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json                        # Get JSON data sent from React
-    text = data.get('text', '')                # Extract the text from request
+    # Get the JSON data sent from the React frontend
+    data = request.json
+    # Extract the 'text' field from the request (default to empty string if missing)
+    text = data.get('text', '')
 
-    if not text:                               # If no text was provided
-        return jsonify({'error': 'No text provided'}), 400   # Return error
+    if not text:                                 # If no text was provided
+        # Return error response with status code 400
+        return jsonify({'error': 'No text provided'}), 400
 
-    # Convert text to numbers and predict
+    # Convert input text into numerical features using the saved vectorizer
     vectorized = vectorizer.transform([text]).toarray()
-    prediction = model.predict(vectorized)[0]   # Get prediction (0 or 1)
 
-    sentiment = "Positive" if prediction == 1 else "Negative"   # Convert to readable text
+    # Make prediction using the loaded model
+    prediction = model.predict(vectorized)[0]    # Get the prediction (0 or 1)
 
-    return jsonify({                           # Send response back to React
-        'sentiment': sentiment,
-        'text': text
+    # Get confidence score (probability of the predicted class)
+    probabilities = model.predict_proba(
+        vectorized)[0]   # Get probability for each class
+    # Take the highest probability as confidence
+    confidence = max(probabilities)
+
+    # Convert numeric prediction to readable text
+    sentiment = "Positive" if prediction == 1 else "Negative"
+
+    # Return the result as JSON
+    return jsonify({
+        'sentiment': sentiment,                  # "Positive" or "Negative"
+        # Confidence score (e.g., 0.8765)
+        'confidence': round(confidence, 4),
+        'text': text                             # Return the original text for display
     })
 
 
-@app.route('/')                                # Home route
+# Root route for basic health check
+@app.route('/')
 def home():
+    # Simple message when accessing the root URL
     return "Sentiment Analysis API is running! 🚀"
 
 
-if __name__ == '__main__':                     # Run the server when file is executed
-    # debug=True shows errors clearly
+if __name__ == '__main__':                       # This block runs only when the file is executed directly
+    # Start the Flask development server with debug mode enabled
     app.run(debug=True)
