@@ -22,6 +22,10 @@ house-price-predictor/ ├── backend/ # Flask API and ML model │ ├──
 
 ## 🚀 How to Run Locally
 
-cd backend python3 app.py
+cd backend
 
-cd frontend npm start
+python3 app.py
+
+cd frontend
+
+npm start
