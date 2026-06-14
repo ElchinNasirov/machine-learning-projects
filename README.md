@@ -1,37 +1,46 @@
 # Machine Learning Projects
 
-A collection of applied machine learning projects and learning artifacts built by a React developer.
+A collection of applied machine learning projects built by a React developer exploring ML.
 
-This repository documents my journey through Andrew Ng’s Machine Learning Specialization and personal ML experiments.
+This repository documents my practical implementations while following Andrew Ng’s Machine Learning Specialization.
 
 ## 📁 Repository Structure
 
 - **`colab-notebooks/`** — Daily learning notebooks and exercises
-- **`projects/`** — Complete, end-to-end applications (frontend + backend)
-- **`README.md`** — This overview
+- **`projects/`** — Complete full-stack applications
 
 ## Featured Projects
 
-### Sentiment Analysis App
-Full-stack web application that predicts sentiment (Positive/Negative) from text input.
+### 1. Sentiment Analysis App
+Full-stack web application that predicts whether a given text has **Positive** or **Negative** sentiment.
 
-**Tech**: React + Flask + Scikit-Learn  
+**Tech Stack**: React + Flask + Random Forest  
 **Status**: Completed
 
 → [View Project](./projects/sentiment-analysis)
 
-*More projects will be added as I progress.*
+### 2. House Price Predictor
+Full-stack web application that estimates house prices based on size, bedrooms, and age.
+
+**Tech Stack**: React + Flask + Linear Regression  
+**Status**: Completed
+
+→ [View Project](./projects/house-price-predictor)
 
 ## Technologies
 
-- **ML Frameworks**: Scikit-Learn, XGBoost, TensorFlow
+- **Machine Learning**: Scikit-Learn, XGBoost, TensorFlow
 - **Frontend**: React
 - **Backend**: Flask
-- **Environment**: Google Colab
+- **Development**: Google Colab
+
+## How to Explore
+
+Each project contains its own `README.md` with setup and run instructions.
 
 ## Connect
 
-GitHub: [ElchinNasirov](https://github.com/ElchinNasirov)
+- GitHub: [ElchinNasirov](https://github.com/ElchinNasirov)
 
 ---
 
