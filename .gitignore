@@ -1,0 +1,11 @@
+.git_old/
+.git_old/
+.git_old/
+
+node_modules/
+venv/
+.venv/
+*.pkl
+*.h5
+*.pt
+.DS_Store
